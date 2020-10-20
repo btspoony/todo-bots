@@ -25,7 +25,7 @@ type TxMsgInfo = {
 
 @Component({
   head () {
-    return { title: 'Uniswap Demo' }
+    return { title: 'Todo Tasks' }
   }
 })
 export default class LayoutComponent extends Vue {

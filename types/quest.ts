@@ -92,12 +92,14 @@ export class QuestSet {
         quests.push(quest)
       }
     })
-    return new QuestSet(quests)
+    return new QuestSet('Quest', quests)
 
   }
   // ------- 实例属性
-  public quests: Quest[]
-  private constructor (quests: Quest[]) {
+  public readonly quests: Quest[]
+  public readonly name: string
+  private constructor (name: string, quests: Quest[]) {
+    this.name = name
     this.quests = quests
   }
   // ------- 实例方法

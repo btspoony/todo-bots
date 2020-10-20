@@ -13,7 +13,7 @@
         v-for="menu in menus"
         :key="menu.name"
         :index="menu.name"
-        :route="menu.route || `/${menu.name}`"
+        :route="menu.route || `/${menu.group}/${menu.name}`"
         :class="[{ 'is-active': currentMenu === menu.name }]"
       >
         <i v-if="!!menu.icon" :class="menu.icon" />
@@ -29,9 +29,7 @@ import { Vue, Component } from 'vue-property-decorator'
 @Component
 export default class SideMenuComponent extends Vue {
   menus = [
-    { name: 'tokens', label: 'Tokens', icon: 'el-icon-s-finance' },
-    { name: 'swap', label: 'Swap', icon: 'el-icon-s-marketing' },
-    { name: 'pool', label: 'Pool', icon: 'el-icon-box' }
+    { group: 'quests', name: 'onehundred', label: '一百以内加法', icon: 'el-icon-s-finance' }
   ]
   // ---- Computed --
   get isOpened () {

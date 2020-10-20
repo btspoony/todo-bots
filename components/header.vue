@@ -13,23 +13,24 @@
       ></el-button>
     </el-col>
     <el-col :span="18">
-      <h2 class="ellipsis-word">{{ currentUser ? currentUser.address : 'No User' }}</h2>
+      <h2 class="ellipsis-word">{{ currentQuest ? currentQuest.name : 'No Quest' }}</h2>
     </el-col>
     <el-col :span="3">
-      <UserPicker @command="handleCommand">
-        <CurrentUser />
-      </UserPicker>
+      <!-- NOTHING -->
     </el-col>
   </el-row>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
+import { QuestSet } from '~/types'
 
 @Component
 export default class HeaderComponent extends Vue {
   // ---- Computed --
-  // TODO
+  get currentQuest () {
+    return this.$store.getters['math/currentQuestSet'] as QuestSet
+  }
   // ---- Hooks --
   async mounted () {
     // NOTHING
