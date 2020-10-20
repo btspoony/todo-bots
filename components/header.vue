@@ -13,7 +13,7 @@
       ></el-button>
     </el-col>
     <el-col :span="18">
-      <h2 class="ellipsis-word">{{ currentQuest ? currentQuest.name : 'No Quest' }}</h2>
+      <h2 class="ellipsis-word">{{ currentQuestSet ? currentQuestSet.name : 'No Quest' }}</h2>
     </el-col>
     <el-col :span="3">
       <!-- NOTHING -->
@@ -28,7 +28,7 @@ import { QuestSet } from '~/types'
 @Component
 export default class HeaderComponent extends Vue {
   // ---- Computed --
-  get currentQuest () {
+  get currentQuestSet () {
     return this.$store.getters['math/currentQuestSet'] as QuestSet
   }
   // ---- Hooks --
@@ -38,9 +38,6 @@ export default class HeaderComponent extends Vue {
   // ------ Methods ---
   toggleMenu () {
     this.$store.commit('app/SET_SIDE_MENU_OPENED', true)
-  }
-  handleCommand (command: number) {
-    this.$store.commit('SET_CURRENT_USER', command)
   }
 }
 </script>
