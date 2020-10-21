@@ -1,12 +1,12 @@
 import _ from 'lodash'
 
 export enum QuestStrategy {
-  ONE_HUNDRED_ADD_AND_SUB = '100_add_sub'
+  ADD_AND_SUB = 'add_sub'
 }
 
 // -------------- Quest --------------
-type QuestOption = {
-  withAnswer?: boolean,
+interface QuestOption {
+  withAnswer?: boolean
   [key: string]: any
 }
 export abstract class Quest {
@@ -14,8 +14,8 @@ export abstract class Quest {
   static create (strategy: QuestStrategy, options?: QuestOption) {
     let quest: Quest
     switch (strategy) {
-      case QuestStrategy.ONE_HUNDRED_ADD_AND_SUB:
-        quest = new QuestOneHundredAddAndSub(options)
+      case QuestStrategy.ADD_AND_SUB:
+        quest = new QuestAddAndSub(options as QuestAddAndSubOption)
         break;
       default:
         throw new Error('Unknown strategy.')
@@ -27,9 +27,7 @@ export abstract class Quest {
   protected params: string[] = []
   protected cachedAnswer?: string = undefined
   protected constructor (options?: QuestOption) {
-    if (options?.withAnswer) {
-      this.cachedAnswer = this.calculateAnswer()
-    }
+    // NOTHING
   }
   // ------- 实例方法
   get parameterLength () { return this.params.length }
@@ -43,15 +41,34 @@ export abstract class Quest {
   abstract validateAnswer (answer: string): boolean;
 }
 
-export class QuestOneHundredAddAndSub extends Quest {
-  constructor (options?: QuestOption) {
+interface QuestAddAndSubOption extends QuestOption {
+  max: number
+  onlyAdd: boolean
+}
+
+export class QuestAddAndSub extends Quest {
+  private readonly operator: string
+  constructor (options?: QuestAddAndSubOption) {
     super(options)
-    const total = Math.floor(Math.random() * 100)
+
+    const onlyAdd = options?.onlyAdd || false
+    const max = options?.max || 100
+    const total = Math.floor(Math.random() * max)
     const percent = Math.random()
-    this.params = [
-      `${Math.floor(percent * total)}`,
-      `${Math.ceil((1 - percent) * total)}`
-    ]
+    // 加法还是减法
+    const params = [] as string[]
+    if (onlyAdd || Math.random() > 0.5) {
+      // 加法
+      params[0] = `${Math.floor(percent * total)}`
+      params[1] = `${Math.ceil((1 - percent) * total)}`
+      this.operator = params[2] = '+'
+    } else {
+      // 减法
+      params[0] = `${total}`
+      params[1] = `${Math.floor(percent * total)}`
+      this.operator = params[2] = '-'
+    }
+    this.params = params
   }
   validateAnswer (answer: string) {
     const str = _.trim(answer)
@@ -60,7 +77,14 @@ export class QuestOneHundredAddAndSub extends Quest {
   }
   calculateAnswer (): string {
     const [a, b] = this.params
-    return `${parseInt(a) + parseInt(b)}`
+    switch (this.operator) {
+      case '+':
+        return `${parseInt(a) + parseInt(b)}`
+      case '-':
+        return `${parseInt(a) - parseInt(b)}`
+      default:
+        throw new Error("Unknown operator");
+    }
   }
 }
 

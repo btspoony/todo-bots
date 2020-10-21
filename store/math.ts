@@ -31,7 +31,7 @@ export const actions: ActionTree<ModuleState, RootState> = {
   /**
    * 构建题目
    */
-  async buildQuests (ctx, payload: { strategy: QuestStrategy, amount: number }) {
+  async buildQuests (ctx, payload: { strategy: QuestStrategy, amount: number, options: any }) {
     ctx.commit('ADD_NEW_QUEST_SET', QuestSet.create({ strategies: [payload], withAnswer: true }))
   }
 }

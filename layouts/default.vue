@@ -30,10 +30,8 @@ type TxMsgInfo = {
 })
 export default class LayoutComponent extends Vue {
   async mounted () {
-    await this.$store.dispatch('queryAllUsers')
-
     // 添加时间监听
-    this.$eventBus.$on('txmsg', (info: TxMsgInfo) => {
+    this.$eventBus.$on('msg', (info: TxMsgInfo) => {
       this.$notify({
         title: info.title || '',
         message: this.$createElement('p', { class: 'ellipsis-word' }, info.message),
