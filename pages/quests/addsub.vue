@@ -6,19 +6,19 @@
     >
       <el-col
         :span="12"
-        class="mb-1 pb-1 quest-item"
+        class="mb-4-1 pb-4-1 quest-item"
         v-for="(quest, i) of currentQuests"
         :key="currentQuestSet.name + '_quest_' + i"
       >
         <el-row>
           <el-col :span="4" :offset="2">
-            <h2>{{ quest.getParameter(0) }}</h2>
+            <h3>{{ quest.getParameter(0) }}</h3>
           </el-col>
           <el-col :span="4">
-            <h2>{{ quest.getParameter(2) }}</h2>
+            <h3>{{ quest.getParameter(2) }}</h3>
           </el-col>
           <el-col :span="4">
-            <h2>{{ quest.getParameter(1) }}</h2>
+            <h3>{{ quest.getParameter(1) }}</h3>
           </el-col>
           <el-col :span="4">
             =
