@@ -14,7 +14,7 @@
         :key="menu.name"
         :index="menu.name"
         :route="menu.route || `/${menu.group}/${menu.name}`"
-        :class="[{ 'is-active': currentMenu === menu.name }]"
+        :class="[{ 'is-active': currentPageName === menu.name || currentPageGroup === menu.group }]"
       >
         <i v-if="!!menu.icon" :class="menu.icon" />
         <span slot="title">{{ menu.label }}</span>
@@ -28,17 +28,18 @@ import { Vue, Component } from 'vue-property-decorator'
 
 @Component
 export default class SideMenuComponent extends Vue {
-  menus = [
-    { group: 'quests', name: 'onehundred', label: '一百以内加法', icon: 'el-icon-s-finance' }
-  ]
   // ---- Computed --
+  get menus () {
+    return this.$store.getters['app/menus'] as any[]
+  }
   get isOpened () {
     return this.$store.getters['app/isSideMenuOpened'] as boolean
   }
   set isOpened (value: boolean) {
     this.$store.commit('app/SET_SIDE_MENU_OPENED', value)
   }
-  get currentMenu () { return this.$route.path.split('/')[1] }
+  get currentPageGroup () { return this.$route.path.split('/')[1] }
+  get currentPageName () { return this.$route.path.split('/')[2] }
   // ---- Hooks --
   async mounted () {
     // NOTHING
