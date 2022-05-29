@@ -1,15 +1,8 @@
 <template>
   <div>
-    <el-row
-      v-if="currentQuestSet"
-      :gutter="12"
-    >
-      <el-col
-        :span="12"
-        class="mb-4-1 pb-4-1 quest-item"
-        v-for="(quest, i) of currentQuests"
-        :key="currentQuestSet.name + '_quest_' + i"
-      >
+    <el-row v-if="currentQuestSet" :gutter="12">
+      <el-col v-for="(quest, i) of currentQuests" :key="currentQuestSet.name + '_quest_' + i" :span="12"
+        class="mb-4-1 pb-4-1 quest-item">
         <el-row>
           <el-col :span="4" :offset="2">
             <h3>{{ quest.getParameter(0) }}</h3>
@@ -20,9 +13,7 @@
           <el-col :span="4">
             <h3>{{ quest.getParameter(1) }}</h3>
           </el-col>
-          <el-col :span="4">
-            =
-          </el-col>
+          <el-col :span="4"> = </el-col>
         </el-row>
       </el-col>
     </el-row>
@@ -47,41 +38,25 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
-import { QuestSet, QuestStrategy } from '~/types'
+<script setup lang="ts">
+import { QuestSet, QuestStrategy } from "~/types";
 
-@Component
-export default class QuestOneHundredPageComponent extends Vue {
-  formData = { amount: 100, max: 100, onlyAdd: false }
-  // ---- Computed --
-  get currentQuestSet () {
-    return this.$store.getters['math/currentQuestSet'] as QuestSet
-  }
-  get currentQuests () {
-    return !this.currentQuestSet ? [] : this.currentQuestSet.quests
-  }
-  // NOTHING
-  // ---- Hooks --
-  async mounted () {
-    // NOTHING
-  }
-  // ------ Methods ---
-  async onGenerate () {
-    const amount = this.formData.amount
-    this.$store.dispatch('math/buildQuests', {
-      strategy: QuestStrategy.ADD_AND_SUB,
-      amount,
-      options: { max: this.formData.max, onlyAdd: this.formData.onlyAdd }
-    })
-  }
+const formData = reactive({ amount: 100, max: 100, onlyAdd: false });
+
+const currentQuestSet = useState<QuestSet>("currentQuestSet", () => ref(null));
+
+const currentQuests = computed(() => {
+  return currentQuestSet.value.quests;
+});
+
+// ------ Methods ---
+function onGenerate() {
+  // TODO
+  // const amount = this.formData.amount;
+  // this.$store.dispatch("math/buildQuests", {
+  //   strategy: QuestStrategy.ADD_AND_SUB,
+  //   amount,
+  //   options: { max: this.formData.max, onlyAdd: this.formData.onlyAdd },
+  // });
 }
 </script>
-
-<style lang="scss" scoped>
-@import '~/assets/scss/mixins';
-
-.quest-item {
-  @include horizontal-line;
-}
-</style>

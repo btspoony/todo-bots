@@ -9,6 +9,10 @@ export default defineNuxtConfig({
   srcDir: "src/",
   // Environment Variables
   runtimeConfig: {},
+  // meta
+  meta: {
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+  },
   /*
    ** Global CSS
    */
@@ -19,6 +23,8 @@ export default defineNuxtConfig({
   typescript: {
     shim: false,
   },
+  // auto import components
+  components: true,
   /*
    ** Nuxt.js modules
    */
@@ -26,6 +32,10 @@ export default defineNuxtConfig({
     // Doc: https://github.com/nuxt-community/tailwindcss-module
     "@nuxtjs/tailwindcss",
   ],
+  // build
+  build: {
+    transpile: ["element-plus"],
+  },
   // vite configure
   vite: {
     plugins: [

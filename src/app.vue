@@ -1,6 +1,14 @@
 <template>
-  <div class="app-main-layout">
-    <div v-if="$nuxt.isOffline">You are offline</div>
+  <div>
+    <!-- override html and head -->
+    <Html>
+
+    <Head>
+      <Title>{{ route.meta.title ?? "Home" }}</Title>
+    </Head>
+
+    </Html>
+
     <el-container>
       <!-- 通用头 -->
       <el-header>
@@ -8,43 +16,40 @@
       </el-header>
       <!-- 内容体 -->
       <el-main>
-        <Nuxt />
+        <NuxtPage />
       </el-main>
     </el-container>
     <!-- 侧边菜单 -->
-    <SideMenu />
+    <SideMenus />
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+<script setup>
+import { ID_INJECTION_KEY } from "element-plus";
 
-type TxMsgInfo = {
-  title?: string;
-  message: string;
-  type: "success" | "warning" | "info" | "error";
-};
+provide(ID_INJECTION_KEY, {
+  prefix: 100,
+  current: 0,
+});
 
-@Component({
-  head() {
-    return { title: "Todo Tasks" };
-  },
-})
-export default class LayoutComponent extends Vue {
-  async mounted() {
-    // 添加时间监听
-    this.$eventBus.$on("msg", (info: TxMsgInfo) => {
-      this.$notify({
-        title: info.title || "",
-        message: this.$createElement(
-          "p",
-          { class: "ellipsis-word" },
-          info.message
-        ),
-        type: info.type,
-        duration: 2000,
-      });
-    });
-  }
-}
+useHead({
+  titleTemplate: "%s - Todo Tasks",
+});
+
+const route = useRoute();
+
+// const msgs = useMessages();
+
+// watch(lastestMsg, (newVals, oldVals) => {
+// // this.$notify({
+// //         title: info.title || "",
+// //         message: this.$createElement(
+// //           "p",
+// //           { class: "ellipsis-word" },
+// //           info.message
+// //         ),
+// //         type: info.type,
+// //         duration: 2000,
+// //       });
+// });
 </script>
