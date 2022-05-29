@@ -5,6 +5,8 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+  // set source dir
+  srcDir: "src/",
   // Environment Variables
   runtimeConfig: {},
   /*
